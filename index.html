@@ -1,24 +1,46 @@
 <!doctype html>
 <head>
 	<meta charset="UTF-8">
+
 	<title>
 		CS640 - Programming Assigment 4
 	</title>
 </head>
 <body>
 	<h1>
-		Lorem Ipsum
+		Geolocation
 	</h1>
-	<p>
-		 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-		 at ante volutpat, interdum urna in, placerat ipsum. Phasellus
-		 at dolor ullamcorper, finibus lectus quis, vestibulum metus.
-		 Vestibulum vel magna elit. Nam commodo sapien in sem mattis,
-		 quis sodales justo mollis. Sed ac ullamcorper velit. Vestibulum
-		 mollis nunc euismod gravida suscipit. Pellentesque elementum
-		 nibh vel sollicitudin vulputate. Nullam at justo sit amet magna
-		 molestie efficitur.
-	</p>
+
+	<h2>
+		Using IP Address
+	</h2>
+
+	<div id="geoip">
+		Not available
+	</div>
+
+	<div id="geoapi_dep">
+		<h2>
+			Using W3C Geolocation API
+		</h2>
+
+		<div id="geoapi">
+			Not available
+		</div>
+
+		<h2>
+			Distance
+		</h2>
+
+		<div id="distance">
+			Not available
+		</div>
+	</div>
+
 	<script src="main.js">
+	</script>
+
+	<script	type="application/javascript"
+		src="http://www.telize.com/geoip?callback=geoip_handler">
 	</script>
 </body>
