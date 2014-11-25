@@ -27,6 +27,16 @@ function geoapi_handler(pos)
 	distance_handler();
 }
 
+function req_geoip()
+{
+	var xhr = new XMLHttpRequest();
+
+	xhr.open("GET", "http://www.telize.com/geoip", false);
+	xhr.send();
+
+	geoip_handler(JSON.parse(xhr.responseText));
+}
+
 function distance_handler()
 {
 	var distance = get_distance(	geoip_lat,
@@ -63,6 +73,8 @@ function get_distance(lat1, lon1, lat2, lon2)
 
 function init()
 {
+	req_geoip();
+
 	if(navigator.geolocation)
 	{
 		navigator.geolocation.getCurrentPosition(geoapi_handler);
