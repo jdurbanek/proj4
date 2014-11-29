@@ -1,0 +1,4 @@
+Answers
+=======
+3. The REST API calls are done after the initial page fetch, and they have to
+be completed before the page can be fully rendered.
