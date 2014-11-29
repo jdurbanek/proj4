@@ -6,6 +6,14 @@ var geoapi_lon;
 var geoip_start;
 var geoip_end;
 
+function pagefetch_handler()
+{
+	var timing = performance.timing;
+	var elem = document.getElementById("pagefetch_time");
+
+	elem.innerHTML = (timing.responseEnd-timing.fetchStart)+" ms";
+}
+
 function geoip_time_handler()
 {
 	var elem = document.getElementById("geoip_time");
@@ -101,6 +109,8 @@ function init()
 
 		elem.style.display = "none";
 	}
+
+	pagefetch_handler();
 }
 
 init();
