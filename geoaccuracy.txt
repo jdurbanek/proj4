@@ -1,3 +1,15 @@
 Distance between the IP-based geolocation and W3C-based geolocation
 ===================================================================
-- Off campus: 1.1048022734979686 km
+1. On campus: 1.0093143835507727 km
+2. Off campus: 1.1048022734979686 km
+3. Cellular network: 2682.4756550257475 km
+
+Answers
+=======
+1. The error is lowest when connected to the sampus wireless network while being
+on campus. This is because the university is its own ISP, so the location
+associated with the IP address is the location of the campus itself.
+2. The error is highest whie being connected to a cellular network. This is
+because a cellular network tend to span a large area, usually country-wide, so
+there is little correlation between the actual location of the client and the IP
+address.
