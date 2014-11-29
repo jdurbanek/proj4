@@ -6,6 +6,14 @@ var geoapi_lon;
 var geoip_start;
 var geoip_end;
 
+function pagerender_handler()
+{
+	var timing = performance.timing;
+	var elem = document.getElementById("pagerender_time");
+
+	elem.innerHTML = (timing.domComplete-timing.domLoading)+" ms";
+}
+
 function pagefetch_handler()
 {
 	var timing = performance.timing;
@@ -111,6 +119,7 @@ function init()
 	}
 
 	pagefetch_handler();
+	pagerender_handler();
 }
 
 init();
