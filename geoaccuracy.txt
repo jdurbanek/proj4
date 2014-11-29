@@ -1,0 +1,3 @@
+Distance between the IP-based geolocation and W3C-based geolocation
+===================================================================
+- Off campus: 1.1048022734979686 km
