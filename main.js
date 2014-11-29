@@ -6,7 +6,7 @@ var geoapi_lon;
 var geoip_start;
 var geoip_end;
 
-function pageloadrender_handler()
+function pageloadrender_handler(e)
 {
 	var timing = performance.timing;
 	var elem = document.getElementById("pageloadrender_time");
@@ -28,6 +28,16 @@ function pagefetch_handler()
 	var elem = document.getElementById("pagefetch_time");
 
 	elem.innerHTML = (timing.responseEnd-timing.fetchStart)+" ms";
+}
+
+function readystatechange_handler()
+{
+	if(document.readyState == "complete")
+	{
+		pagefetch_handler();
+		pagerender_handler();
+		pageloadrender_handler();
+	}
 }
 
 function geoip_time_handler()
@@ -113,6 +123,8 @@ function get_distance(lat1, lon1, lat2, lon2)
 
 function init()
 {
+	document.addEventListener("readystatechange", readystatechange_handler);
+
 	req_geoip();
 
 	if(navigator.geolocation)
@@ -125,10 +137,6 @@ function init()
 
 		elem.style.display = "none";
 	}
-
-	pagefetch_handler();
-	pagerender_handler();
-	pageloadrender_handler();
 }
 
 init();
