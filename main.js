@@ -77,11 +77,11 @@ function req_geoip()
 
 	xhr.open("GET", "http://www.telize.com/geoip", false);
 
-	geoip_start = (new Date()).getMilliseconds();
+	geoip_start = Date.now();
 
 	xhr.send();
 
-	geoip_end = (new Date()).getMilliseconds();
+	geoip_end = Date.now();
 
 	geoip_handler(JSON.parse(xhr.responseText));
 	geoip_time_handler();
