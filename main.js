@@ -3,6 +3,16 @@ var geoip_lon;
 var geoapi_lat;
 var geoapi_lon;
 
+var geoip_start;
+var geoip_end;
+
+function geoip_time_handler()
+{
+	var elem = document.getElementById("geoip_time");
+
+	elem.innerHTML = (geoip_end-geoip_start)+" ms";
+}
+
 function geoip_handler(json)
 {
 	var elem = document.getElementById("geoip");
@@ -32,9 +42,15 @@ function req_geoip()
 	var xhr = new XMLHttpRequest();
 
 	xhr.open("GET", "http://www.telize.com/geoip", false);
+
+	geoip_start = (new Date()).getMilliseconds();
+
 	xhr.send();
 
+	geoip_end = (new Date()).getMilliseconds();
+
 	geoip_handler(JSON.parse(xhr.responseText));
+	geoip_time_handler();
 }
 
 function distance_handler()
