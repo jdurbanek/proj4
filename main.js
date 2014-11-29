@@ -99,7 +99,7 @@ function init()
 	{
 		var elem = document.getElementById("geoapi_dep");
 
-		elem.style.visibility = "hidden";
+		elem.style.display = "none";
 	}
 }
 
