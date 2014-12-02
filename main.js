@@ -6,6 +6,14 @@ var geoapi_lon;
 var geoip_start;
 var geoip_end;
 
+var temp_ip;
+var humidity_ip;
+var temp_api;
+var humidity_api;
+
+var lat;
+var lon;
+
 function pageloadrender_handler(e)
 {
 	var timing = performance.timing;
@@ -121,11 +129,72 @@ function get_distance(lat1, lon1, lat2, lon2)
 	return radius*c;
 }
 
+function weather_ip_handler(json)
+{
+	var elem = document.getElementById("weather_ip");
+		
+	temp_ip = json.main.temp;
+	humidity_ip = json.main.humidity;
+  	
+	temp_ip -= 273.15;		
+	elem.innerHTML =	"Temperature: "+temp_ip+"C <br>"+
+				"Humidity: "+humidity_ip;
+}
+
+function get_weather_ip()
+{
+	var xmlhttp = new XMLHttpRequest();	
+	xmlhttp.onreadystatechange=function()
+		{	
+		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		    {
+			weather_ip_handler(JSON.parse(xmlhttp.responseText));
+			
+		    }
+		}
+	xmlhttp.open("GET","http://api.openweathermap.org/data/2.5/weather?lat="+geoip_lat+"&lon="+geoip_lon,false);
+	xmlhttp.send();
+}
+
+
+function weather_handler(json)
+{
+	var elem = document.getElementById("weather_api");
+		
+	temp_api = json.main.temp;
+	humidity_api = json.main.humidity;
+	lat = json.coord.lat;
+	lon = json.coord.lon;  	
+	temp_api -= 273.15;		
+	elem.innerHTML =	"Temperature: "+temp_api+"C <br>"+
+				"Humidity: "+humidity_api+"<br>"+
+				"Lat: "+lat+"<br>"+
+				"Lon: "+lon;
+}
+
+function get_weather_api()
+{
+	var xmlhttp = new XMLHttpRequest();	
+	xmlhttp.onreadystatechange=function()
+		{	
+		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		    {
+			weather_handler(JSON.parse(xmlhttp.responseText));
+			
+		    }
+		}
+
+	xmlhttp.open("GET","http://api.openweathermap.org/data/2.5/weather?lat="+geoapi_lat+"&lon="+geoapi_lon,false);
+	xmlhttp.send();
+}
+
 function init()
 {
 	document.addEventListener("readystatechange", readystatechange_handler);
 
 	req_geoip();
+
+	get_weather_ip();
 
 	if(navigator.geolocation)
 	{
@@ -137,6 +206,8 @@ function init()
 
 		elem.style.display = "none";
 	}
+
+	get_weather_api();
 }
 
 init();
