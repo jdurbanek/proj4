@@ -4,7 +4,16 @@ var geoapi_lat;
 var geoapi_lon;
 var geoip_start;
 var geoip_end;
-
+var geoapi_start;
+var geoapi_end;
+var w_ip_s;
+var w_api_s;
+var w_ip_e;
+var w_api_e;
+var bus_ip_start;
+var bus_ip_end;
+var bus_api_start;
+var bus_ip_end;
 function pageloadrender_handler(e)
 {
 	var timing = performance.timing;
@@ -43,8 +52,36 @@ function geoip_time_handler()
 {
 	var elem = document.getElementById("geoip_time");
 
-	elem.innerHTML = (geoip_end-geoip_start)+" ms";
+	elem.innerHTML = (geoip_end-geoip_start)+" ms IP";
 }
+
+function geoapi_time_handler()
+{
+	var elem = document.getElementById("geoapi_time");
+
+	elem.innerHTML = (geoapi_end-geoapi_start)+" ms API";
+}
+
+function weather_ip_time_handler()
+{
+	var elem = document.getElementById("weather_ip_time");
+
+	elem.innerHTML = (w_ip_e-w_ip_s)+" ms IP";
+}
+
+function weather_api_time_handler()
+{
+	var elem = document.getElementById("weather_api_time");
+
+	elem.innerHTML = (w_api_e-w_api_s)+" ms API";
+}
+
+function bus_time_handler()
+{
+	var elem = document.getElementById("bus_time");
+
+	elem.innerHTML = (bus_ip_end-bus_ip_start)+" ms IP";
+}	
 
 function geoip_handler(json)
 {
@@ -60,13 +97,13 @@ function geoip_handler(json)
 function geoapi_handler(pos)
 {
 	var elem = document.getElementById("geoapi");
-
 	geoapi_lat = pos.coords.latitude;
 	geoapi_lon = pos.coords.longitude;
 
+	geoapi_end = performance.now();
 	elem.innerHTML =	"Latitude: "+geoapi_lat+"<br>"+
 				"Longitude: "+geoapi_lon;
-
+	geoapi_time_handler();
 	get_weather_api();
 	getbusinfo(geoapi_lat, geoapi_lon, "geoapi");
 	distance_handler();
@@ -144,8 +181,14 @@ function get_weather_ip()
 			geoip_lon;
 
 	xmlhttp.open("GET", url, false);
+	
+	w_ip_s = performance.now();
+
 	xmlhttp.send();
+
+	w_ip_e = performance.now();
 	weather_ip_handler(JSON.parse(xmlhttp.responseText));
+	weather_ip_time_handler()
 }
 
 function weather_handler(json)
@@ -173,8 +216,13 @@ function get_weather_api()
 			geoapi_lon;
 
 	xmlhttp.open("GET", url, false);
+	w_api_s = performance.now();
+
 	xmlhttp.send();
+
+	w_api_e = performance.now();
 	weather_handler(JSON.parse(xmlhttp.responseText));
+	weather_api_time_handler();
 }
 
 function businfo_handler(json, elem)
@@ -189,11 +237,13 @@ function businfo_handler(json, elem)
 
 function businfo_geoip_handler(json)
 {
+	bus_ip_end = performance.now();
 	businfo_handler(json, document.getElementById("businfo_ip"));
 }
 
 function businfo_geoapi_handler(json)
 {
+	bus_api_end = performance.now();
 	businfo_handler(json, document.getElementById("businfo_api"));
 }
 
@@ -202,7 +252,7 @@ function getbusinfo(lat, lon, loctype)
 	var script = document.createElement("script");
 
 	script.type = "text/javascript";
-
+	
 	script.src =	"http://api.smsmybus.com/v1/getnearbystops"+
 			"?key=uwcompsci"+
 			"&lat="+lat+
@@ -221,10 +271,12 @@ function init()
 
 	req_geoip();
 	get_weather_ip();
+	bus_ip_start = performance.now();
 	getbusinfo(geoip_lat, geoip_lon, "geoip");
-
+	
 	if(navigator.geolocation)
 	{
+		geoapi_start = performance.now();
 		navigator.geolocation.getCurrentPosition(geoapi_handler);
 	}
 	else
@@ -237,6 +289,7 @@ function init()
 
 		elem.style.display = "none";
 	}
+	bus_time_handler();
 }
 
 init();
