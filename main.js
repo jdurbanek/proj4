@@ -76,6 +76,7 @@ function geoapi_handler(pos)
 	elem.innerHTML =	"Latitude: "+geoapi_lat+"<br>"+
 				"Longitude: "+geoapi_lon;
 
+	get_weather_api();
 	distance_handler();
 }
 
@@ -207,7 +208,6 @@ function init()
 		elem.style.display = "none";
 	}
 
-	get_weather_api();
 }
 
 init();
