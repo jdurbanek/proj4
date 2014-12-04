@@ -1,3 +1,14 @@
+Page load times.
+1. IP geolocation took 507.2 ms
+   API geolocation took
+   Weather IP took
+   Weather API took
+   BusInfo Ip took
+   BusInfo API took 
+2. It takes 527 ms to fetch the page.
+3. It takes 2205 ms to render the page. 
+4. it takes 2911 ms to to fetch and render the page.
+
 Answers
 =======
 3. The REST API calls are done after the initial page fetch, and they have to
