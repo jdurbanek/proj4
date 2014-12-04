@@ -190,7 +190,11 @@ function init()
 	}
 	else
 	{
-		var elem = document.getElementById("geoapi_dep");
+		var elem = document.getElementById("loc_geoapi");
+
+		elem.style.display = "none";
+
+		elem = document.getElementById("locinfo_geoapi");
 
 		elem.style.display = "none";
 	}
