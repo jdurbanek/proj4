@@ -68,6 +68,7 @@ function geoapi_handler(pos)
 				"Longitude: "+geoapi_lon;
 
 	get_weather_api();
+	getbusinfo(geoapi_lat, geoapi_lon, "geoapi");
 	distance_handler();
 }
 
@@ -176,13 +177,51 @@ function get_weather_api()
 	weather_handler(JSON.parse(xmlhttp.responseText));
 }
 
+function businfo_handler(json, elem)
+{
+	elem.innerHTML = "Nearby bus stops:<br>";
+
+	for(var i = 0; i < json.stop.length; i++)
+	{
+		elem.innerHTML += json.stop[i].stopID+" "+json.stop[i].intersection+"<br>";
+	}
+}
+
+function businfo_geoip_handler(json)
+{
+	businfo_handler(json, document.getElementById("businfo_ip"));
+}
+
+function businfo_geoapi_handler(json)
+{
+	businfo_handler(json, document.getElementById("businfo_api"));
+}
+
+function getbusinfo(lat, lon, loctype)
+{
+	var script = document.createElement("script");
+
+	script.type = "text/javascript";
+
+	script.src =	"http://api.smsmybus.com/v1/getnearbystops"+
+			"?key=uwcompsci"+
+			"&lat="+lat+
+			"&lon="+lon+
+			"&callback="+
+			((loctype == "geoip")
+			?"businfo_geoip_handler"
+			:"businfo_geoapi_handler");
+
+	document.getElementsByTagName("head")[0].appendChild(script);
+}
+
 function init()
 {
 	document.addEventListener("readystatechange", readystatechange_handler);
 
 	req_geoip();
-
 	get_weather_ip();
+	getbusinfo(geoip_lat, geoip_lon, "geoip");
 
 	if(navigator.geolocation)
 	{
