@@ -79,10 +79,16 @@ function weather_api_time_handler()
 function bus_time_handler()
 {
 	var elem = document.getElementById("bus_time");
-
 	elem.innerHTML = (bus_ip_end-bus_ip_start)+" ms IP";
-}	
+	
+}
 
+function bus_time_api()
+{
+     	var elem = document.getElementById("bus_time_api");
+    	elem.innerHTML = (bus_api_end-bus_api_start)+" ms API";
+
+}
 function geoip_handler(json)
 {
 	var elem = document.getElementById("geoip");
@@ -105,7 +111,11 @@ function geoapi_handler(pos)
 				"Longitude: "+geoapi_lon;
 	geoapi_time_handler();
 	get_weather_api();
+	
+	bus_api_start = performance.now();
 	getbusinfo(geoapi_lat, geoapi_lon, "geoapi");
+	bus_api_end = performance.now();
+	bus_time_api();	
 	distance_handler();
 }
 
@@ -237,13 +247,11 @@ function businfo_handler(json, elem)
 
 function businfo_geoip_handler(json)
 {
-	bus_ip_end = performance.now();
 	businfo_handler(json, document.getElementById("businfo_ip"));
 }
 
 function businfo_geoapi_handler(json)
 {
-	bus_api_end = performance.now();
 	businfo_handler(json, document.getElementById("businfo_api"));
 }
 
@@ -273,7 +281,9 @@ function init()
 	get_weather_ip();
 	bus_ip_start = performance.now();
 	getbusinfo(geoip_lat, geoip_lon, "geoip");
-	
+	bus_ip_end = performance.now();
+	bus_time_handler();
+
 	if(navigator.geolocation)
 	{
 		geoapi_start = performance.now();
@@ -289,7 +299,6 @@ function init()
 
 		elem.style.display = "none";
 	}
-	bus_time_handler();
 }
 
 init();
