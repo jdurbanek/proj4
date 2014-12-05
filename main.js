@@ -206,15 +206,11 @@ function weather_handler(json)
 	var elem = document.getElementById("weather_api");
 	var temp_api = json.main.temp;
 	var humidity_api = json.main.humidity;
-	var lat = json.coord.lat;
-	var lon = json.coord.lon;  	
 
 	temp_api -= 273.15;		
 
 	elem.innerHTML =	"Temperature: "+temp_api+"C <br>"+
-				"Humidity: "+humidity_api+"<br>"+
-				"Lat: "+lat+"<br>"+
-				"Lon: "+lon;
+				"Humidity: "+humidity_api;
 }
 
 function get_weather_api()
